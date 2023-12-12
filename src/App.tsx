@@ -14,7 +14,6 @@ import {
 
 function App() {
   const notes = useAppSelector((state) => state.notes.items);
-
   const filter = useAppSelector((state) => state.notes.filter);
 
   return (
