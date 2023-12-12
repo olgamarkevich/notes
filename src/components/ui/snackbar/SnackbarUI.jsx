@@ -1,18 +1,21 @@
 import React from 'react';
+import { useAppSelector } from '../../../hooks/store';
 import { Snackbar, Alert } from '@mui/material';
 
-const SnackbarUI = ({ openP, closeModal }) => {
+const SnackbarUI = () => {
+  const alerts = useAppSelector((state) => state.notes);
+
+  console.log(alerts);
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
-    closeModal(false);
   };
 
   return (
     <Snackbar
-      open={openP}
+      open={true}
       autoHideDuration={6000}
       onClose={handleClose}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}

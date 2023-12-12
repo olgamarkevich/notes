@@ -3,25 +3,25 @@ import { Button, Grid, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch } from '../../hooks/store';
 import { addNote } from '../../store/notes';
-import SnackbarUI from '../ui/snackbar/SnackbarUI';
 
 const NewEntry = () => {
   const [entryValue, setEntryValue] = useState('');
-  const [open, setOpen] = useState(false);
+
   const dispatch = useAppDispatch();
 
-  let tag: string = '';
+  let tagArr: RegExpMatchArray | null;
 
   const addEntry = () => {
-    if (entryValue.indexOf('#') !== -1) {
-      tag = entryValue.substring(entryValue.lastIndexOf('#') + 1);
+    if (entryValue.indexOf('#') !== -1 && tagArr !== null) {
+      tagArr = entryValue.match(/#[^\s#]*/g);
     }
 
-    if (entryValue !== '') {
-      dispatch(addNote({ id: Date.now(), title: entryValue, tag: tag }));
+    if (entryValue !== '' && tagArr !== null) {
+      tagArr.forEach((tag) => {
+        dispatch(addNote({ id: Date.now(), title: entryValue, tag: tag }));
+      });
     }
     setEntryValue('');
-    setOpen(true);
   };
 
   return (
@@ -47,8 +47,6 @@ const NewEntry = () => {
             add new
           </Button>
         </Grid>
-
-        <SnackbarUI openP={open} closeModal={setOpen} />
       </Grid>
     </>
   );

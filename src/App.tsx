@@ -3,6 +3,7 @@ import { useAppSelector } from './hooks/store';
 import NewEntry from './components/new-entry/NewEntry';
 import TodoItem from './components/note-item/NoteItem';
 import FilterTodo from './components/filter-note/FilterNote';
+
 import {
   AppBar,
   Box,
@@ -54,6 +55,8 @@ function App() {
               ))}
           </Grid>
         </Container>
+
+        {/* <SnackbarUI /> */}
       </main>
     </>
   );

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialState, Note } from './model';
+import { initialState, Note, Alert } from './model';
 
 export const slice = createSlice({
   name: 'artworks',
@@ -34,10 +34,21 @@ export const slice = createSlice({
     removeFilterTag: (state, action: PayloadAction<number>) => {
       state.filter = state.filter.filter((item) => item.id !== action.payload);
     },
+
+    showAlert: (state, action: PayloadAction<Alert>) => {
+      console.log(action.payload);
+      //state.alerts.push(action.payload);
+    },
   },
 });
 
-export const { addNote, removeNote, editNote, addFilterTag, removeFilterTag } =
-  slice.actions;
+export const {
+  addNote,
+  removeNote,
+  editNote,
+  addFilterTag,
+  removeFilterTag,
+  showAlert,
+} = slice.actions;
 
 export default slice.reducer;

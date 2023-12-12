@@ -8,23 +8,23 @@ import DoneIcon from '@mui/icons-material/Done';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import { TextField, Grid } from '@mui/material';
-import SnackbarUI from '../ui/snackbar/SnackbarUI';
 
 const NoteItem = ({ note }) => {
   const dispatch = useAppDispatch();
   const [editdMode, setEditMode] = useState(false);
   const [updateValue, setUpdateValue] = useState(note.title);
 
-  const [open, setOpen] = useState(false);
+  let tagArr;
 
-  let tag = '';
   const updateNote = () => {
     if (updateValue.indexOf('#') !== -1) {
-      tag = updateValue.substring(updateValue.lastIndexOf('#') + 1);
+      tagArr = updateValue.match(/#[^\s#]*/g);
     }
 
     if (updateValue !== '') {
-      dispatch(editNote({ id: note.id, title: updateValue, tag: tag }));
+      tagArr.forEach((tag) => {
+        dispatch(editNote({ id: note.id, title: updateValue, tag: tag }));
+      });
     }
 
     setEditMode(false);
@@ -47,8 +47,6 @@ const NoteItem = ({ note }) => {
           </Grid>
         </Grid>
       )}
-
-      <SnackbarUI openP={open} closeModal={setOpen} />
 
       {editdMode && (
         <Grid container alignItems="center">
