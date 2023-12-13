@@ -20,30 +20,29 @@ const NewEntry = () => {
   };
 
   return (
-    <>
-      <Grid container spacing={2} alignItems="stretch" mb={2}>
-        <Grid item md={10}>
-          <TextField
-            label="Add new note"
-            variant="outlined"
-            value={entryValue}
-            style={{ width: '100%' }}
-            onChange={(e) => setEntryValue(e.target.value)}
-          />
-        </Grid>
-        <Grid item md={2}>
-          <Button
-            startIcon={<AddIcon />}
-            variant="outlined"
-            color="success"
-            style={{ height: '100%' }}
-            onClick={handleAddNewEntry}
-          >
-            add new
-          </Button>
-        </Grid>
+    <Grid container spacing={2} alignItems="stretch" mb={4}>
+      <Grid item md={10}>
+        <TextField
+          label="Enter note"
+          variant="standard"
+          color="info"
+          value={entryValue}
+          style={{ width: '100%' }}
+          onChange={(e) => setEntryValue(e.target.value)}
+        />
       </Grid>
-    </>
+      <Grid item md={2}>
+        <Button
+          startIcon={<AddIcon />}
+          variant="outlined"
+          color="success"
+          style={{ height: '100%' }}
+          onClick={handleAddNewEntry}
+        >
+          add new
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 

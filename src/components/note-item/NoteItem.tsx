@@ -25,12 +25,22 @@ const NoteItem: FC<Props> = ({ note }) => {
     dispatch(editNote({ id: note.id, text: updateValue }));
     setEditMode(false);
   };
+
+  const textWithSpans = note.text.replace(
+    /(#\S+)/g,
+    '<span style="color:#c617ff">$1</span>'
+  );
+
   return (
-    <Paper elevation={4} variant="outlined" style={{ padding: '10px' }}>
+    <Paper elevation={0} variant="outlined" style={{ padding: '10px' }}>
       {!editdMode && (
         <Grid container alignItems="center">
-          <Grid sm={10}>{note.text}</Grid>
-          <Grid sm={2} textAlign="right">
+          <Grid
+            sm={10}
+            item
+            dangerouslySetInnerHTML={{ __html: textWithSpans }}
+          ></Grid>
+          <Grid sm={2} item textAlign="right">
             <IconButton color="info" onClick={() => setEditMode(true)}>
               <EditIcon />
             </IconButton>
@@ -46,7 +56,7 @@ const NoteItem: FC<Props> = ({ note }) => {
 
       {editdMode && (
         <Grid container alignItems="center">
-          <Grid sm={10}>
+          <Grid item sm={10}>
             <TextField
               variant="standard"
               value={updateValue}
@@ -54,7 +64,7 @@ const NoteItem: FC<Props> = ({ note }) => {
               style={{ width: '100%' }}
             />
           </Grid>
-          <Grid sm={2} textAlign="right">
+          <Grid item sm={2} textAlign="right">
             <IconButton color="success" onClick={() => updateNote()}>
               <DoneIcon />
             </IconButton>

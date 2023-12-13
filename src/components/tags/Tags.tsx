@@ -11,6 +11,9 @@ const Tags = () => {
 
   const tags = useAppSelector(selectAllTags);
 
+  const tagsFilter = useAppSelector((state) => state.notes.tagsFilter);
+  console.log(tagsFilter);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>, tag: string) => {
     if (e.target.checked) {
       dispatch(addTagToFilter(tag));
