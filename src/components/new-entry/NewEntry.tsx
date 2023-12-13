@@ -1,26 +1,21 @@
 import React, { useState } from 'react';
+
 import { Button, Grid, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+
 import { useAppDispatch } from '../../hooks/store';
 import { addNote } from '../../store/notes';
 
 const NewEntry = () => {
-  const [entryValue, setEntryValue] = useState('');
-
   const dispatch = useAppDispatch();
 
-  let tagArr: RegExpMatchArray | null;
+  const [entryValue, setEntryValue] = useState('');
 
-  const addEntry = () => {
-    if (entryValue.indexOf('#') !== -1 && tagArr !== null) {
-      tagArr = entryValue.match(/#[^\s#]*/g);
+  const handleAddNewEntry = () => {
+    if (entryValue) {
+      dispatch(addNote(entryValue));
     }
 
-    if (entryValue !== '' && tagArr !== null) {
-      tagArr.forEach((tag) => {
-        dispatch(addNote({ id: Date.now(), title: entryValue, tag: tag }));
-      });
-    }
     setEntryValue('');
   };
 
@@ -42,7 +37,7 @@ const NewEntry = () => {
             variant="outlined"
             color="success"
             style={{ height: '100%' }}
-            onClick={addEntry}
+            onClick={handleAddNewEntry}
           >
             add new
           </Button>

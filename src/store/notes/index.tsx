@@ -1,38 +1,35 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 import { initialState, Note, Alert } from './model';
 
 export const slice = createSlice({
-  name: 'artworks',
+  name: 'notes',
   initialState,
   reducers: {
-    addNote: (state, action: PayloadAction<Note>) => {
-      state.items.push(action.payload);
+    addNote: (state, action: PayloadAction<string>) => {
+      state.items.push({ id: Date.now(), text: action.payload });
     },
 
-    removeNote: (state, action: PayloadAction<number>) => {
-      state.items = state.items.filter((el) => el.id !== action.payload);
+    removeNote: (state, { payload }: PayloadAction<number>) => {
+      state.items = state.items.filter((el) => el.id !== payload);
     },
 
-    editNote: (state, action: PayloadAction<Note>) => {
-      const editTodoItem = state.items.find(
-        (item) => item.id === action.payload.id
+    editNote: (state, { payload }: PayloadAction<Note>) => {
+      state.items = state.items.map((note) =>
+        note.id === payload.id ? payload : note
       );
+    },
 
-      if (editTodoItem !== undefined) {
-        editTodoItem.title = action.payload.title;
-        editTodoItem.tag = action.payload.tag;
+    addTagToFilter: (state, { payload }: PayloadAction<string>) => {
+      if (!state.tagsFilter.includes(payload)) {
+        state.tagsFilter.push(payload);
       }
     },
 
-    addFilterTag: (state, action: PayloadAction<number>) => {
-      let find = state.items.find((item) => item.id === action.payload);
-      if (find !== undefined) {
-        state.filter.push(find);
+    removeTagFromFilter: (state, { payload }: PayloadAction<string>) => {
+      if (state.tagsFilter.includes(payload)) {
+        state.tagsFilter = state.tagsFilter.filter((tag) => tag !== payload);
       }
-    },
-
-    removeFilterTag: (state, action: PayloadAction<number>) => {
-      state.filter = state.filter.filter((item) => item.id !== action.payload);
     },
 
     showAlert: (state, action: PayloadAction<Alert>) => {
@@ -46,8 +43,8 @@ export const {
   addNote,
   removeNote,
   editNote,
-  addFilterTag,
-  removeFilterTag,
+  addTagToFilter,
+  removeTagFromFilter,
   showAlert,
 } = slice.actions;
 

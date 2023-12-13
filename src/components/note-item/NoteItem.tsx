@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useAppDispatch } from '../../hooks/store';
-import { removeNote, editNote } from '../../store/notes';
+import React, { useState, FC } from 'react';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -9,31 +8,28 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import { TextField, Grid } from '@mui/material';
 
-const NoteItem = ({ note }) => {
+import { useAppDispatch } from '../../hooks/store';
+import { removeNote, editNote } from '../../store/notes';
+import { Note } from '../../store/notes/model';
+
+interface Props {
+  note: Note;
+}
+
+const NoteItem: FC<Props> = ({ note }) => {
   const dispatch = useAppDispatch();
   const [editdMode, setEditMode] = useState(false);
-  const [updateValue, setUpdateValue] = useState(note.title);
-
-  let tagArr;
+  const [updateValue, setUpdateValue] = useState(note.text);
 
   const updateNote = () => {
-    if (updateValue.indexOf('#') !== -1) {
-      tagArr = updateValue.match(/#[^\s#]*/g);
-    }
-
-    if (updateValue !== '') {
-      tagArr.forEach((tag) => {
-        dispatch(editNote({ id: note.id, title: updateValue, tag: tag }));
-      });
-    }
-
+    dispatch(editNote({ id: note.id, text: updateValue }));
     setEditMode(false);
   };
   return (
     <Paper elevation={4} variant="outlined" style={{ padding: '10px' }}>
       {!editdMode && (
         <Grid container alignItems="center">
-          <Grid sm={10}>{note.title}</Grid>
+          <Grid sm={10}>{note.text}</Grid>
           <Grid sm={2} textAlign="right">
             <IconButton color="info" onClick={() => setEditMode(true)}>
               <EditIcon />

@@ -1,12 +1,6 @@
 export interface Note {
   id: number;
-  title: string;
-  tag: string;
-}
-
-export interface Tag {
-  id: number;
-  tag: string;
+  text: string;
 }
 
 export interface Alert {
@@ -15,16 +9,14 @@ export interface Alert {
   message: string;
 }
 
-export interface NoteState {
+export interface NotesState {
   items: Note[];
-  filter: Note[];
-  tags: Tag[];
+  tagsFilter: string[];
   alerts: Alert[];
 }
 
-export const initialState: NoteState = {
+export const initialState: NotesState = {
   items: [],
-  tags: [],
-  filter: [],
+  tagsFilter: [],
   alerts: [],
 };

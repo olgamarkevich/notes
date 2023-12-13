@@ -1,8 +1,10 @@
 import React from 'react';
+
 import { useAppSelector } from './hooks/store';
+import { selectFilteredItems } from './store/notes/selectors';
 import NewEntry from './components/new-entry/NewEntry';
-import TodoItem from './components/note-item/NoteItem';
-import FilterTodo from './components/filter-note/FilterNote';
+import NoteItem from './components/note-item/NoteItem';
+import Tags from './components/tags/Tags';
 
 import {
   AppBar,
@@ -14,8 +16,7 @@ import {
 } from '@mui/material';
 
 function App() {
-  const notes = useAppSelector((state) => state.notes.items);
-  const filter = useAppSelector((state) => state.notes.filter);
+  const notes = useAppSelector(selectFilteredItems);
 
   return (
     <>
@@ -31,7 +32,7 @@ function App() {
         <Container maxWidth="md" style={{ paddingTop: 80 }}>
           <NewEntry />
           <Box mb={2}>
-            <FilterTodo />
+            <Tags />
           </Box>
 
           {notes.length === 0 && (
@@ -40,19 +41,11 @@ function App() {
             </Typography>
           )}
           <Grid container spacing={2}>
-            {filter.length === 0 &&
-              notes.map((note) => (
-                <Grid item sm={12} key={note.id}>
-                  <TodoItem note={note} />
-                </Grid>
-              ))}
-
-            {filter.length > 0 &&
-              filter.map((note) => (
-                <Grid item sm={12} key={note.id}>
-                  <TodoItem note={note} />
-                </Grid>
-              ))}
+            {notes.map((note) => (
+              <Grid item sm={12} key={note.id}>
+                <NoteItem note={note} />
+              </Grid>
+            ))}
           </Grid>
         </Container>
 
